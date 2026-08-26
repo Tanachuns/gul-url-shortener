@@ -25,6 +25,7 @@ public class LinkService:ILinkService
         string shortCode = base62Converter.Encode(link.Id.ToString());
         link.Code = shortCode;
         await _context.SaveChangesAsync();
+       
         return shortCode;
     }
 }

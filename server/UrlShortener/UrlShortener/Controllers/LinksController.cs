@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using UrlShortener.Databases;
 using UrlShortener.Interfaces;
@@ -10,11 +11,28 @@ namespace UrlShortener.Controllers;
 public class LinksController(ILinkService linkService) : Controller
 {
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CreateShortlinkModel model)
+    public async Task<IActionResult> Post([FromBody] CreateShortlinkRequestModel requestModel)
     {
-        //TODO return multiple links with stats visited, created and last accessed.
-        await linkService.CreateShortUrlAsync(model.Url);
-        return Ok("post");
+         CreateShortlinkResponseModel responseModel = new CreateShortlinkResponseModel();
+        
+        //TODO create short url and return a result
+        try
+        {
+            if (!requestModel.IsValid())
+            {
+                return BadRequest();
+            }
+            string shortCode = await linkService.CreateShortUrlAsync(requestModel.Url);
+            string beseUrl = $"https://{Request.Host}";//get baseurl form appsettings
+            responseModel.Shortlink = $"{beseUrl}/{shortCode}"; 
+            responseModel.Success = true;
+            return Ok(responseModel);
+        }
+        catch (Exception e)
+        {
+            return Problem(e.Message);
+        }
+   
     }
     
     [HttpGet]
