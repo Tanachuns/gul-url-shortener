@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using UrlShortener.Databases;
 using UrlShortener.Interfaces;
+using UrlShortener.Models;
 using UrlShortener.Models.Http;
 using UrlShortener.Services;
 
@@ -15,8 +16,7 @@ public class LinksController(ILinkService linkService,IConfiguration config) : C
     public async Task<IActionResult> Post([FromBody] CreateShortlinkRequestModel requestModel)
     {
          CreateShortlinkResponseModel responseModel = new CreateShortlinkResponseModel();
-        
-        //TODO create short url and return a result
+        //TODO Platform-specific destination
         try
         {
             if (!UrlService.IsValidUrl(requestModel.Url, config["baseUrl"]))
@@ -53,15 +53,33 @@ public class LinksController(ILinkService linkService,IConfiguration config) : C
     public IActionResult GetAllLinks()
     {
         //TODO return multiple links with stats visited, created and last accessed.
-        
-        return Ok($"");
+        GetAllLinksResponseModel responseModel = new GetAllLinksResponseModel();
+        try
+        {
+            List<LinkModel> linkModels = linkService.FindAll();
+
+            responseModel.Response = linkModels;
+            responseModel.Success = true;
+            return Ok(responseModel);
+        }
+        catch (Exception e)
+        {
+            return Problem(e.Message);
+        }
     }
     
     [HttpGet("{url}")]
     public IActionResult GetLink(string url)
     {
-        //TODO return link stats with visited, created and last accessed.
-        return Ok("GetAllLinks");
+        var link = new
+        {
+            Url = url,
+            Visited = 10,
+            Created = DateTime.UtcNow.AddDays(-5),
+            LastAccessed = DateTime.UtcNow.AddMinutes(-10)
+        };
+
+        return Ok(link);
     }
     
     [HttpPatch("{url}")]

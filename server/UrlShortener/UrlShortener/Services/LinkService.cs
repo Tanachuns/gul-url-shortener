@@ -45,4 +45,9 @@ public class LinkService:ILinkService
         _link.Visited += 1;
         await _context.SaveChangesAsync();
     }
+
+    public List<LinkModel> FindAll()
+    {
+        return _context.Links.ToList();
+    }
 }
