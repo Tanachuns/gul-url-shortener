@@ -157,9 +157,9 @@ Core REST endpoints exposed by the .NET backend API:
 | --- | --- | --- |
 | `POST` | `/api/links` | Create a short link (payload: `defaultUrl`, `iosUrl`, `androidUrl`, `customAlias`). |
 | `GET` | `/api/links` | Retrieve all created links and aggregated statistics. |
-| `GET` | `/{code}` | Redirects visitor to target destination (evaluates platform User-Agent, updates click stats). |
-| `PATCH` | `/api/links/{id}/toggle` | Enable or disable a short link. |
-| `DELETE` | `/api/links/{id}` | Soft or hard delete a short link. |
+| `GET` | `/{urlCode}` | Redirects visitor to target destination (evaluates platform User-Agent, updates click stats). |
+| `PATCH` | `/api/links/{urlCode}` | Actived a short link. |
+| `DELETE` | `/api/links/{urlCode}` | Soft delete (deactived) a short link. |
 
 ---
 
