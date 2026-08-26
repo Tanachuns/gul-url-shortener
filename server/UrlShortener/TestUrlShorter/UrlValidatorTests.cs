@@ -61,14 +61,13 @@ public class UrlValidatorTests
     }
 
     [Theory]
-    [InlineData("https://short.ly/xyz123")]
-    [InlineData("http://SHORT.LY/custom-alias")]
-    [InlineData("https://short.ly/api/links")]
+    [InlineData("https://localhost/xyz123")]
+    [InlineData("http://locAlhost/custom-alias")]
+    [InlineData("https://locAlhost/api/links")]
     public void IsValidUrl_WithSelfReferentialDomain_ReturnsFalse(string selfDomainUrl)
     {
         // Act
         bool result = UrlService.IsValidUrl(selfDomainUrl, CurrentDomain);
-
         // Assert
         result.Should().BeFalse();
     }

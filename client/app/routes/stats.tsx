@@ -1,10 +1,9 @@
 import type { Route } from "./+types/home";
-import { ShortenerForm } from "../components/ShortenerForm";
-import { useNavigate } from "react-router";
 import { StatsForm } from "~/components/StatsForm";
 import StatsResult from "~/components/StatsResult";
-import React from "react";
+import React, { useEffect } from "react";
 import type { StatsResultData } from "~/types/StatusResultData";
+import { useSearchParams } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -14,16 +13,19 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Stats() {
+
+      const [searchParams, setSearchParams] = useSearchParams();
+      const _code = searchParams.get("code") || "";
+
   const [resultData, setData] = React.useState<StatsResultData | null>(null);
 
-  const submitHander = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-     if (!formData.get("shortUrl")) {
-      alert("Shortened URL is required");
-      return;
+  useEffect(() => {
+    if (_code) {
+      fetchStats(_code);
     }
-    const code = formData.get("shortUrl")?.toString();
+  }, []);
+
+  const fetchStats = async (code: string) => {
     const url = `https://localhost:7219/api/links/${code.split("/").pop()}`;
     try {
       const response = await fetch(url, {
@@ -40,6 +42,21 @@ export default function Stats() {
     }
   };
 
+  const submitHander = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    if (!formData.get("shortUrl")) {
+      alert("Shortened URL is required");
+      return;
+    }
+    const code = formData.get("shortUrl")?.toString();
+    if (!code) {
+      alert("Shortened URL is required");
+      return;
+    }
+    fetchStats(code);
+  };
+
   const deleteHander = async () => {
     const code = resultData?.code || "";
     const url = `https://localhost:7219/api/links/${code}`;
@@ -47,11 +64,11 @@ export default function Stats() {
       const response = await fetch(url, {
         method: "DELETE",
       });
-      if (!response.ok) {
+       if (response.status !== 204) {
         console.error(response);
       }
-      const result = await response.json();
-      console.log(result);
+      fetchStats(code);
+
     } catch (error: any) {
       console.error(error.message);
     }
@@ -64,11 +81,10 @@ export default function Stats() {
       const response = await fetch(url, {
         method: "PATCH",
       });
-      if (!response.ok) {
+      if (response.status !== 204) {
         console.error(response);
       }
-      const result = await response.json();
-      console.log(result);
+      fetchStats(code);
     } catch (error: any) {
       console.error(error.message);
     }
@@ -78,7 +94,11 @@ export default function Stats() {
       <div className="container mx-auto p-4 ">
         <h1 className="text-2xl font-bold">Your URL Stats</h1>
         <StatsForm submitHandler={submitHander} />
-        <StatsResult resultData={resultData} deleteHandler={deleteHander} activateHandler={activateHandler} />
+        <StatsResult
+          resultData={resultData}
+          deleteHandler={deleteHander}
+          activateHandler={activateHandler}
+        />
       </div>
     </div>
   );

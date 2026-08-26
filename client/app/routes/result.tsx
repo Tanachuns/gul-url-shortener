@@ -12,8 +12,9 @@ export function meta({}: Route.MetaArgs) {
 export default function Result() {
   const location = useLocation();
   const { data } = location.state || {};
-
   const [isOpen, setIsOpen] = useState(false);
+
+  const url = useRef<HTMLInputElement>(null);
 
   const handleCopyClick = () => {
     if (data?.shortlink) {
@@ -35,6 +36,7 @@ export default function Result() {
               type="text"
               className="input join-item input-sm"
               value={data?.shortlink || ""}
+              ref={url}
             />
 
             <div
@@ -50,7 +52,7 @@ export default function Result() {
             </div>
           </div>
         </div>
-        <a className="btn btn-sm btn-link btn-secondary " href="/stats">View Stats</a>
+        <a className="btn btn-sm btn-link btn-secondary " href={`/stats?code=${url.current?.value}`}>View Stats</a>
       </div>
     </>
   );
