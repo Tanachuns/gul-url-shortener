@@ -102,11 +102,22 @@ Core REST endpoints exposed by the .NET backend API:
 | --- | --- | --- |
 | `POST` | `/api/links` | Create a short link (payload: `defaultUrl`, `iosUrl`, `androidUrl`, `customAlias`). |
 | `GET` | `/api/links` | Retrieve all created links and aggregated statistics. |
+| `GET` | `/api/links/{urlCode}` | Retrieve Single created link and aggregated statistics. |
 | `GET` | `/{urlCode}` | Redirects visitor to target destination (evaluates platform User-Agent, updates click stats). |
 | `PATCH` | `/api/links/{urlCode}` | Actived a short link. |
 | `DELETE` | `/api/links/{urlCode}` | Soft delete (deactived) a short link. |
 
 ---
+## Challenges & Next Steps
+
+- My Previous job is usually works with backend so it a bit slow for frontend in design(states, data visualization and some react stuffs).
+- After I did this project, I found that the url shortener detail is complex and interesting expesially in architecture and request load.
+
+- Logs, I didn't implement logs and any mornitoring stuff but I think if it will go to prod. it must have logs.
+- Url Code Generator, It currently use id to encode to base62 but we have custom alias that means it can duplicate.
+- Microservices, I think it should split into 3 services: Redirect Service, Create  Short Url Service and Analytic Service  because if ew have a lot of request, It should be mostly on Redirect Service that we can only scale it.
 
 
-**session AI:** https://share.gemini.google/9tN5dct2l2mq
+
+
+**AI Session:** https://share.gemini.google/9tN5dct2l2mq
