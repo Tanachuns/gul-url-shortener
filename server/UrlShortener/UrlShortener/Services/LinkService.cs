@@ -5,60 +5,59 @@ using UrlShortener.Models.Http;
 
 namespace UrlShortener.Services;
 
-public class LinkService:ILinkService
+public class LinkService(LinkContext context) : ILinkService
 {
     private readonly IUrlGenerateService _urlGenerateService = new UrlGenerateService();
-    private readonly LinkContext _context;
-    public LinkService(LinkContext context)
-    {
-        _context = context;
-    }
+
     public async Task<string> CreateShortUrlAsync(CreateShortlinkRequestModel request)
     {
         var link = new LinkModel()
         {
             LongUrl = request.Url,
+            LongAplUrl =  request.iosUrl,
+            LongAndUrl =  request.androidUrl,
             CreatedAt = DateTime.UtcNow,
             IsActive = true
         };
-        _context.Links.Add(link);
-        await _context.SaveChangesAsync();
+        context.Links.Add(link);
+        await context.SaveChangesAsync();
         string shortCode = _urlGenerateService.Generate(link.Id.ToString());
         link.Code = request.CustomAlias??shortCode;
-        await _context.SaveChangesAsync();
-       
+        await context.SaveChangesAsync();
         return link.Code;
+
+
     }
 
     public LinkModel? Find(string urlCode,bool isActive=true)
     {
-        return  _context.Links.FirstOrDefault(l => l.IsActive==isActive && l.Code == urlCode);
+        return  context.Links.FirstOrDefault(l => l.IsActive==isActive && l.Code == urlCode);
     }
     public List<LinkModel> FindAll()
     {
-        return _context.Links.ToList();
+        return context.Links.ToList();
     }
 
     public async Task AddCount(LinkModel link)
     {
-        LinkModel? _link = await _context.Links.FindAsync(link.Id);
+        LinkModel? _link = await context.Links.FindAsync(link.Id);
         if (_link == null)
         {
             throw  new Exception("Link not found");
         }
         _link.Visited += 1;
         _link.LastAccessed = DateTime.UtcNow;
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     public async Task SetActive(LinkModel link ,bool isActive)
     {
-        LinkModel? _link = _context.Links.FirstOrDefault(l=>l.Id==link.Id && l.IsActive!= isActive);
+        LinkModel? _link = context.Links.FirstOrDefault(l=>l.Id==link.Id && l.IsActive!= isActive);
         if (_link == null)
         {
             throw  new Exception("Link not found");
         }
         _link.IsActive = isActive;
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 }

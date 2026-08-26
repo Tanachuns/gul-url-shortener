@@ -25,8 +25,18 @@ public class RedirectController(ILinkService linkService,IConfiguration config) 
             }
 
             linkService.AddCount(linkModel);
-            
-            return Redirect(linkModel.LongUrl);
+            string userAgent = Request.Headers.UserAgent.ToString().ToLower();
+            string targetUrl = linkModel.LongUrl;
+
+            if (userAgent.Contains("iphone") || userAgent.Contains("ipad") || userAgent.Contains("ipod"))
+            {
+                targetUrl = string.IsNullOrWhiteSpace(linkModel.LongAplUrl) ? linkModel.LongUrl : linkModel.LongAplUrl;
+            }
+            else if (userAgent.Contains("android"))
+            {
+                targetUrl = string.IsNullOrWhiteSpace(linkModel.LongAndUrl) ? linkModel.LongUrl : linkModel.LongAndUrl;
+            }
+            return Redirect(targetUrl);
         }
         catch (Exception e)
         {

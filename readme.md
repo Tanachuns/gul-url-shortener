@@ -1,5 +1,5 @@
 
-#URL Shortener
+# URL Shortener
 
 desc
 
@@ -56,10 +56,11 @@ a custom alias. Validate that the input is a proper URL./
 2. View access statistics — For each link, the user can see usage stats — at minimum the total number
 of times the short link has been visited (clicks), and ideally when it was created and last accessed./
 3. Disable or delete a link — A user can disable a link (it stops redirecting but is kept for records) or
-delete it entirely. A visit to a disabled/deleted link should not redirect.
+delete it entirely. A visit to a disabled/deleted link should not redirect./
 4. Platform-specific destination — A short link can resolve to a different destination based on the
 visitor's platform — e.g. iOS, Android, or a default — decided at redirect time.
 https://gul.fy/HsQy5
 Android → https://download.gulf.co.th/android.apk
 iPhone  → https://download.gulf.co.th/iphone.ipa
-5. Pluggable short-code generation 
+5. Pluggable short-code generation /
+
