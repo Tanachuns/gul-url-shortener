@@ -1,0 +1,118 @@
+{
+  "info": {
+    "_postman_id": "175933e7-33c8-43b4-8d22-b2bd819ec7c5",
+    "name": "gul_test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "21968253"
+  },
+  "item": [
+    {
+      "name": "CreateShortCode",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"url\":\"https://www.youtube.com/watch?v=Nfe6udHgh5k\",\r\n    \"CustomAlias\": \"master\",\r\n    \"iosUrl\":\"https://www.youtube.com/watch?v=rf_i64PoIac\",\r\n    \"androidUrl\":\"https://www.youtube.com/watch?v=SXWHiQ_MYaA\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/links",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "links"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllLinks",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/links",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "links"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetByUrlCode",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/links/3HD",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "links",
+            "3HD"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "activelink",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/links/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "links",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "deactivelink",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/links/3HC",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "links",
+            "3HC"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    }
+  ]
+}
