@@ -25,8 +25,6 @@ public class LinkService(LinkContext context) : ILinkService
         link.Code = request.CustomAlias??shortCode;
         await context.SaveChangesAsync();
         return link.Code;
-
-
     }
 
     public LinkModel? Find(string urlCode,bool? isActive)
