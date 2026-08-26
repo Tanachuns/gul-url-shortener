@@ -28,4 +28,9 @@ public class LinkService:ILinkService
        
         return shortCode;
     }
+
+    public LinkModel? Find(string urlCode)
+    {
+        return  _context.Links.FirstOrDefault(l => l.IsActive && l.Code == urlCode);;
+    }
 }

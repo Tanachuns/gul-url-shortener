@@ -20,7 +20,7 @@ public class LinksController(ILinkService linkService) : Controller
         {
             if (!requestModel.IsValid())
             {
-                return BadRequest();
+                return BadRequest("Invalid Url Format.");
             }
             string shortCode = await linkService.CreateShortUrlAsync(requestModel.Url);
             string beseUrl = $"https://{Request.Host}";//get baseurl form appsettings

@@ -1,4 +1,6 @@
-﻿namespace UrlShortener.Models.Http;
+﻿using UrlShortener.Services;
+
+namespace UrlShortener.Models.Http;
 
 public class CreateShortlinkRequestModel
 {
@@ -6,7 +8,7 @@ public class CreateShortlinkRequestModel
 
     public bool IsValid()
     {
-        return !string.IsNullOrEmpty(Url)&&!string.IsNullOrWhiteSpace(Url);
+        return UrlService.IsValidUrl(Url);
     }
     
 }

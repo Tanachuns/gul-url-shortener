@@ -3,7 +3,7 @@
 public class LinkModel
 {
     public int Id { get; set; }
-    public string? LongUrl { get; set; }
+    public string LongUrl { get; set; }
     public string? LongAplUrl { get; set; }
     public string? LongAndUrl { get; set; }
     public string? Code { get; set; }
