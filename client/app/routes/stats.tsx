@@ -26,7 +26,8 @@ export default function Stats() {
   }, []);
 
   const fetchStats = async (code: string) => {
-    const url = `https://localhost:7219/api/links/${code.split("/").pop()}`;
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    const url = `${apiUrl}/api/links/${code.split("/").pop()}`;
     try {
       const response = await fetch(url, {
         method: "GET",
@@ -59,7 +60,8 @@ export default function Stats() {
 
   const deleteHander = async () => {
     const code = resultData?.code || "";
-    const url = `https://localhost:7219/api/links/${code}`;
+        const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    const url = `${apiUrl}/api/links/${code}`;
     try {
       const response = await fetch(url, {
         method: "DELETE",
@@ -76,7 +78,10 @@ export default function Stats() {
 
   const activateHandler = async () => {
     const code = resultData?.code || "";
-    const url = `https://localhost:7219/api/links/${code}`;
+
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+    const url = `${apiUrl}/api/links/${code}`;
     try {
       const response = await fetch(url, {
         method: "PATCH",

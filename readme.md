@@ -25,7 +25,7 @@ A link shortener built around the five capabilities below — the first three fo
 ### 1. Clone Repository
 ```
 git clone https://github.com/your-username/url-shortener.git
-cd url-shortener
+cd gul-url-shortener
 
 ```
 
@@ -69,7 +69,7 @@ cd url-shortener
 
 1.  Install npm dependencies:
 ```
-    cd ../../frontend
+    cd client
     npm install
     
 ```
@@ -78,7 +78,10 @@ cd url-shortener
 ```
 	VITE_API_BASE_URL=http://localhost:5243
 ```
-    
+3.  Start Service:
+```
+	npm run dev
+```    
 
 ## Testing & Service Verification
 

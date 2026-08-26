@@ -25,7 +25,8 @@ export default function Home() {
       androidUrl: formData.get("androidUrl"),
       iosUrl: formData.get("iosUrl"),
     };
-    const url = "https://localhost:7219/api/links";
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    const url = `${apiUrl}/api/links`;
     try {
       const response = await fetch(url, {
         method: "POST",
