@@ -3,7 +3,7 @@
 public class UrlService
 {
     public static bool IsValidUrl(string url
-        , string currentDomain
+        , string? currentDomain
         )
     {
         // 1. Check null/empty

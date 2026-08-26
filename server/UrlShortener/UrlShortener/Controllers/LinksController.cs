@@ -38,7 +38,7 @@ public class LinksController(ILinkService linkService,IConfiguration config) : C
             {
                 throw new Exception("BaseUrl not set");
             }
-            string beseUrl = config["baseUrl"]; // $"https://{Request.Host}";//get baseurl form appsettings
+            string? beseUrl = config["baseUrl"]; // $"https://{Request.Host}";//get baseurl form appsettings
             responseModel.Shortlink = $"{beseUrl}/{shortCode}"; 
             responseModel.Success = true;
             return Ok(responseModel);

@@ -7,6 +7,7 @@ namespace UrlShortener.Services;
 
 public class LinkService:ILinkService
 {
+    private readonly IUrlGenerateService _urlGenerateService = new UrlGenerateService();
     private readonly LinkContext _context;
     public LinkService(LinkContext context)
     {
@@ -20,12 +21,9 @@ public class LinkService:ILinkService
             CreatedAt = DateTime.UtcNow,
             IsActive = true
         };
-     
-        
         _context.Links.Add(link);
         await _context.SaveChangesAsync();
-        Base62.Base62Converter base62Converter = new Base62.Base62Converter();
-        string shortCode = base62Converter.Encode(link.Id.ToString());
+        string shortCode = _urlGenerateService.Generate(link.Id.ToString());
         link.Code = request.CustomAlias??shortCode;
         await _context.SaveChangesAsync();
        
