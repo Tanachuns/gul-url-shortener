@@ -6,7 +6,7 @@ namespace UrlShortener.Interfaces;
 public interface ILinkService
 {
     Task<string> CreateShortUrlAsync(CreateShortlinkRequestModel defaultUrl);
-    LinkModel? Find(string urlCode,bool isActive=true);
+    LinkModel? Find(string urlCode,bool? isActive=null);
     Task AddCount(LinkModel link);
     List<LinkModel> FindAll();
     Task SetActive(LinkModel link,bool isActive);

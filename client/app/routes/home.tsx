@@ -14,8 +14,11 @@ export default function Home() {
 
   const submitHander = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const formData = new FormData(event.currentTarget);
+    if (!formData.get("Longurl")) {
+      alert("Url is required");
+      return;
+    }
     const requestBody = {
       Url: formData.get("Longurl"),
       customAlias: formData.get("customAlias"),

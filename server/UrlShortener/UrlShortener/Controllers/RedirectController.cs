@@ -13,7 +13,7 @@ public class RedirectController(ILinkService linkService,IConfiguration config) 
     {
         try
         {
-            LinkModel? linkModel = linkService.Find(urlCode);
+            LinkModel? linkModel = linkService.Find(urlCode,true);
             if (linkModel == null)
             {
                 return BadRequest();

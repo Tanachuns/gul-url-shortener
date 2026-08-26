@@ -5,16 +5,6 @@ type Props = {
 };
 
 export const StatsForm = (props: Props) => {
-  const [customToggles, setCustomToggles] = React.useState({
-    customAliasToggle: false,
-    androidUrlToggle: false,
-    iosUrlToggle: false
-  });
-
-  const handleToggleChange = (event: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
-    console.log(event.target.name, event.target.checked);
-    setCustomToggles({ ...customToggles, [event.target.name]: event.target.checked })
-  }
   return (
     <>
         <form className="centered-form" onSubmit={props.submitHandler}>

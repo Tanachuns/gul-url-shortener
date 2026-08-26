@@ -29,8 +29,12 @@ public class LinkService(LinkContext context) : ILinkService
 
     }
 
-    public LinkModel? Find(string urlCode,bool isActive=true)
+    public LinkModel? Find(string urlCode,bool? isActive)
     {
+        if (isActive == null)
+        {
+            return  context.Links.FirstOrDefault(l => l.Code == urlCode);
+        }
         return  context.Links.FirstOrDefault(l => l.IsActive==isActive && l.Code == urlCode);
     }
     public List<LinkModel> FindAll()

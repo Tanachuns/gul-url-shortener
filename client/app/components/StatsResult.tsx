@@ -1,11 +1,13 @@
-import React from "react";
+import React, { type MouseEventHandler } from "react";
 import type { StatsResultData } from "~/types/StatusResultData";
 
 type Props = {
   resultData: StatsResultData | null;
+  deleteHandler: MouseEventHandler<HTMLButtonElement>;
+  activateHandler: MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function StatsResult({ resultData }: Props) {
+export default function StatsResult({ resultData, deleteHandler, activateHandler }: Props) {
   if (!resultData) {
     return null;
   }
@@ -53,6 +55,12 @@ export default function StatsResult({ resultData }: Props) {
           </div>
         </li>
       </ul>
+      <button className={`btn btn-active btn-error btn-sm mt-3 ${resultData.isActive ? '' : 'hidden'}`} onClick={deleteHandler}>
+        Disable Link
+      </button>
+      <button className={`btn btn-active btn-success btn-sm mt-3 ${resultData.isActive ? 'hidden' : ''}`} onClick={activateHandler}>
+        Activate Link
+      </button>
     </>
   );
 }
