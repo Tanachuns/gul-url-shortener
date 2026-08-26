@@ -110,7 +110,7 @@ Core REST endpoints exposed by the .NET backend API:
 ---
 ## Challenges & Next Steps
 
-- My Previous job is usually works with backend so it a bit slow for frontend in design(states, data visualization and some react stuffs).
+- My Previous job is usually works with backend so I am less proficient in frontend in design(states, data visualization and some react stuffs).
 - After I did this project, I found that the url shortener detail is complex and interesting expesially in architecture and request load.
 
 - Logs, I didn't implement logs and any mornitoring stuff but I think if it will go to prod. it must have logs.
