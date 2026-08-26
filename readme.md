@@ -113,7 +113,7 @@ Core REST endpoints exposed by the .NET backend API:
 - My Previous job is usually works with backend so I am less proficient in frontend in design(states, data visualization and some react stuffs).
 - After I did this project, I found that the url shortener detail is complex and interesting expesially in architecture and request load.
 
-- Logs, I didn't implement logs and any mornitoring stuff but I think if it will go to prod. it must have logs.
+- Logs, I didn't implement logs and any mornitoring stuff but I think if it will go to prod, it must have logs.
 - Url Code Generator, It currently use id to encode to base62 but we have custom alias that means it can duplicate.
 - Microservices, I think it should split into 3 services: Redirect Service, Create  Short Url Service and Analytic Service  because if ew have a lot of request, It should be mostly on Redirect Service that we can only scale it.
 
