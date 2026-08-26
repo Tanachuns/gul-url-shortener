@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using UrlShortener.Databases;
 using UrlShortener.Interfaces;
 using UrlShortener.Models.Http;
+using UrlShortener.Services;
 
 namespace UrlShortener.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class LinksController(ILinkService linkService) : Controller
+public class LinksController(ILinkService linkService,IConfiguration config) : Controller
 {
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateShortlinkRequestModel requestModel)
@@ -18,22 +19,26 @@ public class LinksController(ILinkService linkService) : Controller
         //TODO create short url and return a result
         try
         {
-            if (!requestModel.IsValid())
+            if (!UrlService.IsValidUrl(requestModel.Url, config["baseUrl"]))
             {
                 responseModel.Success = false;
                 responseModel.Message = "Invalid request";
                 return BadRequest(responseModel);
             }
 
-            if (string.IsNullOrEmpty(requestModel.CustomAlias)||linkService.Find(requestModel.CustomAlias) != null)
+            if (!string.IsNullOrEmpty(requestModel.CustomAlias)&&linkService.Find(requestModel.CustomAlias) != null)
             {
                 responseModel.Success = false;
-                responseModel.Message = "Custom alias not found";
+                responseModel.Message = "Invalid Custom alias";
                 return BadRequest(responseModel);
             }
             
             string shortCode = await linkService.CreateShortUrlAsync(requestModel);
-            string beseUrl = $"https://{Request.Host}";//get baseurl form appsettings
+            if (string.IsNullOrEmpty(config["baseUrl"]))
+            {
+                throw new Exception("BaseUrl not set");
+            }
+            string beseUrl = config["baseUrl"]; // $"https://{Request.Host}";//get baseurl form appsettings
             responseModel.Shortlink = $"{beseUrl}/{shortCode}"; 
             responseModel.Success = true;
             return Ok(responseModel);

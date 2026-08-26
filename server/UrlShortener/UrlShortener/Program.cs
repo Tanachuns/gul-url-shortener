@@ -7,9 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+string connectionString = builder.Configuration.GetConnectionString("sqlite");
+   // $"Data Source={Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "linkshortener.db")}";
 
 builder.Services.AddDbContext<LinkContext>(opts => {
-    opts.UseSqlite($"Data Source={Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "linkshortener.db")}");
+    opts.UseSqlite(connectionString);
 });
 
 #region DI

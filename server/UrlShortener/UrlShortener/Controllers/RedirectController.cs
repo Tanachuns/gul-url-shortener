@@ -6,7 +6,7 @@ using UrlShortener.Services;
 
 namespace UrlShortener.Databases;
 
-public class RedirectController(ILinkService linkService) : Controller
+public class RedirectController(ILinkService linkService,IConfiguration config) : Controller
 {
     [HttpGet("{urlCode}")]
     public IActionResult Get(string urlCode)
@@ -19,7 +19,7 @@ public class RedirectController(ILinkService linkService) : Controller
                 return BadRequest();
             }
 
-            if (!UrlService.IsValidUrl(linkModel.LongUrl,"localhost"))
+            if (!UrlService.IsValidUrl(linkModel.LongUrl,config["baseUrl"]))
             {
                 return BadRequest();
             }
