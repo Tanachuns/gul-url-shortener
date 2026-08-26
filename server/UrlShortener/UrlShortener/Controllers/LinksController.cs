@@ -71,15 +71,18 @@ public class LinksController(ILinkService linkService,IConfiguration config) : C
     [HttpGet("{url}")]
     public IActionResult GetLink(string url)
     {
-        var link = new
+        GetlinkResponseModel responseModel = new GetlinkResponseModel();
+        try
         {
-            Url = url,
-            Visited = 10,
-            Created = DateTime.UtcNow.AddDays(-5),
-            LastAccessed = DateTime.UtcNow.AddMinutes(-10)
-        };
-
-        return Ok(link);
+            LinkModel linkModels = linkService.Find(url);
+            responseModel.Response = linkModels;
+            responseModel.Success = true;
+            return Ok(responseModel);
+        }
+        catch (Exception e)
+        {
+            return Problem(e.Message);
+        }
     }
     
     [HttpPatch("{url}")]

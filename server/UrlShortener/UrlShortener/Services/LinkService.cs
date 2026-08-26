@@ -43,6 +43,7 @@ public class LinkService:ILinkService
             throw  new Exception("Link not found");
         }
         _link.Visited += 1;
+        _link.LastAccessed = DateTime.UtcNow;
         await _context.SaveChangesAsync();
     }
 
