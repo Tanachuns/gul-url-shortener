@@ -50,6 +50,7 @@ export default function Result() {
             </div>
           </div>
         </div>
+        <a className="btn btn-sm btn-link btn-secondary " href="/stats">View Stats</a>
       </div>
     </>
   );
