@@ -16,7 +16,7 @@ A link shortener built around the five capabilities below — the first three fo
 
 -   **.NET 10.0 SDK** (or later)
     
--   **Node.js** (v18.x or later) & **npm**
+-   **Node.js** (v24.15.0) & **npm** (12.0.2)
     
 -   **Git**
 
@@ -108,8 +108,5 @@ Core REST endpoints exposed by the .NET backend API:
 
 ---
 
-  
 
-## Key Design Decisions
-
-how i built this
+**session AI:** https://share.gemini.google/9tN5dct2l2mq
