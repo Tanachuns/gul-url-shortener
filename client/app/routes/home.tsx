@@ -1,5 +1,7 @@
 import type { Route } from "./+types/home";
 import { ShortenerForm } from "../layouts/ShortenerForm";
+import { useNavigate } from "react-router";
+
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,6 +11,8 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+    const navigate = useNavigate();
+
   const submitHander = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -32,6 +36,7 @@ export default function Home() {
       console.error(response);
     }
     const result = await response.json();
+    navigate('/results', { state: { data: result } });
     console.log(result);
   } catch (error:any ) {
     console.error(error.message);

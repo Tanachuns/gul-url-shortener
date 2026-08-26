@@ -14,6 +14,19 @@ builder.Services.AddDbContext<LinkContext>(opts => {
     opts.UseSqlite(connectionString);
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "vite", policy =>
+    {
+        policy.WithOrigins(
+                "http://localhost:5173"    // Local Vite dev server
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();             // Optional: Allow cookies/auth headers
+    });
+});
+
 #region DI
 builder.Services.AddScoped<ILinkService, LinkService>();
 #endregion
@@ -30,7 +43,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseCors("vite");
 app.UseAuthorization();
 
 app.MapStaticAssets();
