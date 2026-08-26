@@ -3,7 +3,7 @@
 public class UrlService
 {
     public static bool IsValidUrl(string url
-        //, string currentDomain
+        , string currentDomain
         )
     {
         // 1. Check null/empty
@@ -16,10 +16,10 @@ public class UrlService
         if (uriResult.Scheme != Uri.UriSchemeHttp && uriResult.Scheme != Uri.UriSchemeHttps) return false;
 
         // 4. Prevent self-referential shortening
-       //if (uriResult.Host.Equals(currentDomain, StringComparison.OrdinalIgnoreCase)) return false;
+        if (uriResult.Host.Equals(currentDomain, StringComparison.OrdinalIgnoreCase)) return false;
 
         // 5. Block localhost / loopback (SSRF protection)
-       // if (uriResult.IsLoopback || uriResult.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase)) return false;
+        if (uriResult.IsLoopback || uriResult.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase)) return false;
 
         return true;
     }

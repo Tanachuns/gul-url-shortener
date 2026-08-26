@@ -19,10 +19,12 @@ public class RedirectController(ILinkService linkService) : Controller
                 return BadRequest();
             }
 
-            if (!UrlService.IsValidUrl(linkModel.LongUrl))
+            if (!UrlService.IsValidUrl(linkModel.LongUrl,"localhost"))
             {
                 return BadRequest();
             }
+
+            linkService.AddCount(linkModel);
             
             return Redirect(linkModel.LongUrl);
         }

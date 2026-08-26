@@ -2,5 +2,5 @@
 
 public partial interface IUrlGenerateService
 {
-    public string Generate(string url);
+    public string Generate(string url,string domain);
 }
