@@ -30,9 +30,13 @@ public class LinkService:ILinkService
         return link.Code;
     }
 
-    public LinkModel? Find(string urlCode)
+    public LinkModel? Find(string urlCode,bool isActive=true)
     {
-        return  _context.Links.FirstOrDefault(l => l.IsActive && l.Code == urlCode);
+        return  _context.Links.FirstOrDefault(l => l.IsActive==isActive && l.Code == urlCode);
+    }
+    public List<LinkModel> FindAll()
+    {
+        return _context.Links.ToList();
     }
 
     public async Task AddCount(LinkModel link)
@@ -47,8 +51,14 @@ public class LinkService:ILinkService
         await _context.SaveChangesAsync();
     }
 
-    public List<LinkModel> FindAll()
+    public async Task SetActive(LinkModel link ,bool isActive)
     {
-        return _context.Links.ToList();
+        LinkModel? _link = _context.Links.FirstOrDefault(l=>l.Id==link.Id && l.IsActive!= isActive);
+        if (_link == null)
+        {
+            throw  new Exception("Link not found");
+        }
+        _link.IsActive = isActive;
+        await _context.SaveChangesAsync();
     }
 }

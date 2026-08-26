@@ -89,13 +89,38 @@ public class LinksController(ILinkService linkService,IConfiguration config) : C
     public IActionResult Patch(string url)
     {
         //TODO Enable link then return nocontent
-        return NoContent();
+        try
+        {
+            LinkModel linkModel = linkService.Find(url,false);
+            if (linkModel == null)
+            {
+                return BadRequest();
+            }
+            linkService.SetActive(linkModel,true);
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            return Problem(e.Message);
+        }
     }
     
     [HttpDelete("{url}")]
     public IActionResult Delete(string url)
     {
-        //TODO disable link then return nocontent
-        return NoContent();
+        try
+        {
+            LinkModel linkModel = linkService.Find(url);
+            if (linkModel == null)
+            {
+                return BadRequest();
+            }
+            linkService.SetActive(linkModel,false);
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            return Problem(e.Message);
+        }
     }
 }
