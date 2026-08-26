@@ -1,7 +1,10 @@
-﻿namespace UrlShortener.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace UrlShortener.Models;
 
 public class LinkModel
 {
+    [JsonIgnore]
     public int Id { get; set; }
     public string LongUrl { get; set; }
     public string? LongAplUrl { get; set; }

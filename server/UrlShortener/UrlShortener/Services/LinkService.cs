@@ -20,6 +20,8 @@ public class LinkService:ILinkService
             CreatedAt = DateTime.UtcNow,
             IsActive = true
         };
+     
+        
         _context.Links.Add(link);
         await _context.SaveChangesAsync();
         Base62.Base62Converter base62Converter = new Base62.Base62Converter();
@@ -27,7 +29,7 @@ public class LinkService:ILinkService
         link.Code = request.CustomAlias??shortCode;
         await _context.SaveChangesAsync();
        
-        return shortCode;
+        return link.Code;
     }
 
     public LinkModel? Find(string urlCode)

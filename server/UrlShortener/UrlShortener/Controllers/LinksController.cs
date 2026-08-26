@@ -20,8 +20,18 @@ public class LinksController(ILinkService linkService) : Controller
         {
             if (!requestModel.IsValid())
             {
-                return BadRequest("Invalid Url Format.");
+                responseModel.Success = false;
+                responseModel.Message = "Invalid request";
+                return BadRequest(responseModel);
             }
+
+            if (string.IsNullOrEmpty(requestModel.CustomAlias)||linkService.Find(requestModel.CustomAlias) != null)
+            {
+                responseModel.Success = false;
+                responseModel.Message = "Custom alias not found";
+                return BadRequest(responseModel);
+            }
+            
             string shortCode = await linkService.CreateShortUrlAsync(requestModel);
             string beseUrl = $"https://{Request.Host}";//get baseurl form appsettings
             responseModel.Shortlink = $"{beseUrl}/{shortCode}"; 
@@ -32,7 +42,6 @@ public class LinksController(ILinkService linkService) : Controller
         {
             return Problem(e.Message);
         }
-   
     }
     
     [HttpGet]
