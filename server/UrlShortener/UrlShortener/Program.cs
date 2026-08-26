@@ -1,7 +1,21 @@
+using Microsoft.EntityFrameworkCore;
+using UrlShortener.Databases;
+using UrlShortener.Interfaces;
+using UrlShortener.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<LinkContext>(opts => {
+    opts.UseSqlite($"Data Source={Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "linkshortener.db")}");
+});
+
+#region DI
+builder.Services.AddScoped<ILinkService, LinkService>();
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

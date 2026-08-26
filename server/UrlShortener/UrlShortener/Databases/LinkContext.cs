@@ -3,19 +3,24 @@ using UrlShortener.Models;
 
 namespace UrlShortener.Databases;
 
-public class LinkContext:DbContext
+public class LinkContext(DbContextOptions<LinkContext> options) : DbContext(options)
 {
     public DbSet<LinkModel> Links { get; set; }
-
-    public string DbPath { get; }
-
-    public LinkContext()
+   
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var folder = Environment.SpecialFolder.LocalApplicationData;
-        var path = Environment.GetFolderPath(folder);
-        DbPath = System.IO.Path.Join(path, "linkshortener.db");
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<LinkModel>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            // Index the short code for rapid O(1) lookups during redirect
+            entity.HasIndex(e => e.Code)
+                .IsUnique();
+            entity.Property(e => e.LongUrl)
+                .IsRequired();
+        });
     }
-    
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={DbPath}");
+
+
 }

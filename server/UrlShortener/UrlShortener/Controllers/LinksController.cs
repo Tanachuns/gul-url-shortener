@@ -1,16 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using UrlShortener.Databases;
+using UrlShortener.Interfaces;
+using UrlShortener.Models.Http;
 
 namespace UrlShortener.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class LinksController : Controller
+public class LinksController(ILinkService linkService) : Controller
 {
     [HttpPost]
-    public IActionResult Post(string url)
+    public async Task<IActionResult> Post([FromBody] CreateShortlinkModel model)
     {
         //TODO return multiple links with stats visited, created and last accessed.
+        await linkService.CreateShortUrlAsync(model.Url);
         return Ok("post");
     }
     
@@ -18,8 +21,8 @@ public class LinksController : Controller
     public IActionResult GetAllLinks()
     {
         //TODO return multiple links with stats visited, created and last accessed.
-        using var db = new LinkContext();
-        return Ok($"Database path: {db.DbPath}.");
+        
+        return Ok($"");
     }
     
     [HttpGet("{url}")]
