@@ -9,7 +9,35 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <>
-  <ShortenerForm/>
-  </>;
+  const submitHander = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const requestBody = {
+      Url: formData.get("Longurl"),
+      customAlias: formData.get("customAlias"),
+      androidUrl: formData.get("androidUrl"),
+      iosUrl: formData.get("iosUrl"),
+    };
+    const url = "https://localhost:7219/api/links";
+    try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(requestBody)
+    });
+    if (!response.ok) {
+      console.error(response);
+    }
+    const result = await response.json();
+    console.log(result);
+  } catch (error:any ) {
+    console.error(error.message);
+  }
+  }
+  return <div className="w-full h-screen items-center justify-center">
+      <ShortenerForm submitHandler={submitHander} />
+  </div>;
 }
