@@ -18,10 +18,7 @@ export const ShortenerForm = (props: Props) => {
 
   return (
     <>
-      <div className="container mx-auto p-4 ">
         <form className="centered-form" onSubmit={props.submitHandler}>
-
-          <h1 className="text-2xl font-bold">Shorten your URL</h1>
           <fieldset className="fieldset">
             <legend className="fieldset-legend">
               Paste the URL to be shortened
@@ -101,9 +98,9 @@ export const ShortenerForm = (props: Props) => {
             </fieldset>
           }
           </div>
-          <button className="btn btn-sm btn-primary mt-3">Shorten URL</button>
+            <button className="btn btn-sm btn-primary mt-3">Shorten URL</button>
+            <a className="btn btn-sm btn-link btn-secondary ml-3 mt-3" href="/stats">View Stats</a>
         </form>
-      </div>
     </>
   );
 };

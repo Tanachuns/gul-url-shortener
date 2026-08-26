@@ -14,7 +14,6 @@ export default function Result() {
   const { data } = location.state || {};
 
   const [isOpen, setIsOpen] = useState(false);
-  const timeoutRef = useRef(null);
 
   const handleCopyClick = () => {
     if (data?.shortlink) {
@@ -39,7 +38,7 @@ export default function Result() {
             />
 
             <div
-              className={` ${isOpen ? "tooltip-open tooltip tooltip-bottom" : ""}`}
+              className={` ${isOpen ? "tooltip-open tooltip tooltip-right" : ""}`}
               data-tip="URL Copied"
             >
               <button

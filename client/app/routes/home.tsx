@@ -1,7 +1,6 @@
 import type { Route } from "./+types/home";
-import { ShortenerForm } from "../layouts/ShortenerForm";
+import { ShortenerForm } from "../components/ShortenerForm";
 import { useNavigate } from "react-router";
-
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -11,7 +10,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const submitHander = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -25,24 +24,30 @@ export default function Home() {
     };
     const url = "https://localhost:7219/api/links";
     try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(requestBody)
-    });
-    if (!response.ok) {
-      console.error(response);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+      if (!response.ok ) {
+        console.error(response);
+        return;
+      }
+      const result = await response.json();
+      navigate("/results", { state: { data: result } });
+      console.log(result);
+    } catch (error: any) {
+      console.error(error.message);
     }
-    const result = await response.json();
-    navigate('/results', { state: { data: result } });
-    console.log(result);
-  } catch (error:any ) {
-    console.error(error.message);
-  }
-  }
-  return <div className="w-full h-screen items-center justify-center">
-      <ShortenerForm submitHandler={submitHander} />
-  </div>;
+  };
+  return (
+    <div className="w-full h-screen items-center justify-center">
+      <div className="container mx-auto p-4 ">
+        <h1 className="text-2xl font-bold">Shorten your URL</h1>
+        <ShortenerForm submitHandler={submitHander} />
+      </div>
+    </div>
+  );
 }
